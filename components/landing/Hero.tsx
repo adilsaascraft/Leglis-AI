@@ -8,7 +8,7 @@ export default function Hero() {
 
    {/* BACKGROUND IMAGE */}
    <Image
-    src="/courtroom.png"
+    src="https://res.cloudinary.com/dymanaa1j/image/upload/v1775587833/courtroom_bpe2iq.png"
     alt="Courtroom"
     fill
     priority
