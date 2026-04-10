@@ -7,7 +7,7 @@ import VideoIllustrations from "@/components/landing/VideoIllustrations";
 import CaseStudies from "@/components/landing/CaseStudies";
 import NewsUpdates from "@/components/landing/NewsUpdates";
 import AboutUs from "@/components/landing/AboutUs";
-import Footer from "@/components/landing/Footer";
+import Contact from "@/components/landing/Footer";
 
 
 
@@ -46,7 +46,9 @@ export default function Home() {
         <AboutUs />
       </section>
       {/*Footer*/}
-      <Footer />
+      <section id="contact">
+        <Contact />
+      </section>
     </div>
   );
 }

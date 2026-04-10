@@ -9,15 +9,15 @@ import { Label } from "@/components/ui/label";
 export function LoginForm() {
   return (
     <Card className="p-0 overflow-hidden bg-black/40 border border-gray-800 backdrop-blur">
-      <CardContent className="grid md:grid-cols-2 p-0">
+      <CardContent className="grid md:grid-cols-2 p-0 min-h-[500px]">
 
         {/* LEFT IMAGE */}
         <div className="relative hidden md:block">
           <Image
-            src="/login.png"
+            src="https://res.cloudinary.com/dymanaa1j/image/upload/v1775820823/logo_kk6bfp.png"
             alt="Login"
             fill
-            className="object-cover"
+            className="object-cover w-full h-full"
             priority
           />
         </div>
@@ -27,9 +27,9 @@ export function LoginForm() {
           <div className="flex flex-col gap-6">
 
             {/* Heading */}
-            <div className="text-center md:text-left">
-              <h1 className="text-3xl font-bold text-center">Welcome Back</h1>
-              <p className="text-gray-400 text-sm text-center">
+            <div className="text-center">
+              <h1 className="text-3xl font-bold">Welcome Back</h1>
+              <p className="text-gray-400 text-sm">
                 Please login to your account
               </p>
             </div>

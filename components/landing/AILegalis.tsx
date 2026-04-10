@@ -91,7 +91,7 @@ export default function AILegalis() {
 
         {/* TITLE */}
         <h2 className="text-4xl md:text-5xl font-bold">
-          AI <span className="text-yellow-400">Legalis</span>
+           <span className="text-yellow-400">JURIX</span>
         </h2>
 
         <p className="text-yellow-400 text-lg">

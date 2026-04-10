@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
           {/* LEFT IMAGE */}
           <div className="relative hidden md:block">
             <img
-              src="/login.png"
+              src="https://res.cloudinary.com/dymanaa1j/image/upload/v1775820823/logo_kk6bfp.png"
               alt="Forgot Password"
               className="object-cover w-full h-full"
             />

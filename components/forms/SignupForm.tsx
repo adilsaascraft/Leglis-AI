@@ -21,7 +21,7 @@ export function SignupForm() {
         {/* LEFT IMAGE */}
         <div className="relative hidden md:block">
           <Image
-            src="/login.png"
+            src="https://res.cloudinary.com/dymanaa1j/image/upload/v1775820823/logo_kk6bfp.png"
             alt="Signup"
             fill
             className="object-cover"
@@ -34,7 +34,7 @@ export function SignupForm() {
           <div className="flex flex-col gap-5">
 
             {/* Heading */}
-            <div>
+            <div className="text-center">
               <h1 className="text-3xl font-bold">Create Account</h1>
               <p className="text-gray-400 text-sm">
                 Register to access your dashboard
