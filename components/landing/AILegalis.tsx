@@ -58,7 +58,7 @@ export default function AILegalis() {
           return;
         }
 
-        const line = random[lineIndex]; // ✅ fix
+        const line = random[lineIndex];
         const words = line.split(" ");
         let wordIndex = 0;
 

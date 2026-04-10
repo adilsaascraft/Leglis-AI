@@ -14,37 +14,37 @@ const videos = [
     title: "Consumer Complaint Process Explained",
     duration: "2:36",
     thumbnail: "/1.png",
-    url: "https://www.youtube.com/embed/3jZ5vnv-LZc",
+    url: "https://www.youtube.com/embed/RRy-3iIb8BE",
   },
   {
     title: "Rights of an Arrested Person",
     duration: "3:02",
     thumbnail: "/2.png",
-    url: "https://www.youtube.com/embed/2Vv-BfVoq4g",
+    url: "https://www.youtube.com/embed/wPQ_9EEb3tA",
   },
   {
     title: "Cheque Bounce Case Explained",
     duration: "2:27",
     thumbnail: "/3.png",
-    url: "https://www.youtube.com/embed/kJQP7kiw5Fk",
+    url: "https://www.youtube.com/embed/muWNGkiizng",
   },
   {
     title: "FIR Filing Process",
     duration: "2:50",
     thumbnail: "/1.png",
-    url: "https://www.youtube.com/embed/tgbNymZ7vqY",
+    url: "https://www.youtube.com/embed/o6z_QHrNRrw",
   },
   {
     title: "Bail Procedure in India",
     duration: "3:10",
     thumbnail: "/2.png",
-    url: "https://www.youtube.com/embed/L_jWHffIx5E",
+    url: "https://www.youtube.com/embed/FhIoTYq3dEw",
   },
   {
     title: "Contract Law Basics",
     duration: "2:40",
     thumbnail: "/3.png",
-    url: "https://www.youtube.com/embed/e-ORhEE9VVg",
+    url: "https://www.youtube.com/embed/Iwry-LPF_FI",
   },
 ];
 
