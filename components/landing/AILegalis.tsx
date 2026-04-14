@@ -1,180 +1,148 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Bot, Send } from "lucide-react";
-import { dummyAnswers } from "@/data/dummyAnswers";
-import { dummySources } from "@/data/dummySources";
+import ReactMarkdown from "react-markdown";
+import { dummyLegalResponse } from "@/data/prompt";
 
 export default function AILegalis() {
   const [question, setQuestion] = useState("");
   const [currentQ, setCurrentQ] = useState("");
-  const [answers, setAnswers] = useState<string[]>([]);
-  const [currentLine, setCurrentLine] = useState("");
-  const [loading, setLoading] = useState(false);
   const [thinking, setThinking] = useState(false);
-  const [sources, setSources] = useState<string[]>([]);
-  const [confidence, setConfidence] = useState<number | null>(null);
+  const [displayText, setDisplayText] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleSend = () => {
     if (!question.trim()) return;
 
     setCurrentQ(question);
     setQuestion("");
-    setAnswers([]);
-    setCurrentLine("");
     setThinking(true);
+    setDisplayText("");
     setLoading(true);
-    setSources([]);
-    setConfidence(null);
 
-    const random =
-      dummyAnswers[Math.floor(Math.random() * dummyAnswers.length)];
+    const fullText = dummyLegalResponse.content;
+    const words = fullText.split(" ");
 
-    const randomSources =
-      dummySources[Math.floor(Math.random() * dummySources.length)];
-
-    // 🧠 Thinking delay
     setTimeout(() => {
       setThinking(false);
 
-      let lineIndex = 0;
+      let index = 0;
 
-      const typeLine = () => {
-        if (lineIndex >= random.length) {
+      const interval = setInterval(() => {
+        setDisplayText((prev) => prev + words[index] + " ");
+        index++;
+
+        // 🧠 Smart pauses (like GPT)
+        const word = words[index] || "";
+        let delay = 25;
+
+        if (word.includes("###")) delay = 200;
+        if (word.includes("\n")) delay = 120;
+
+        if (index >= words.length) {
+          clearInterval(interval);
           setLoading(false);
-
-          // 📚 Show sources
-          setTimeout(() => {
-            setSources(randomSources);
-
-            // 🎯 Confidence (random realistic value)
-            const randomConfidence = Math.floor(85 + Math.random() * 10);
-            setConfidence(randomConfidence);
-          }, 500);
-
-          return;
         }
-
-        const line = random[lineIndex];
-        const words = line.split(" ");
-        let wordIndex = 0;
-
-        const wordInterval = setInterval(() => {
-          setCurrentLine((prev) => prev + words[wordIndex] + " ");
-          wordIndex++;
-
-          if (wordIndex >= words.length) {
-            clearInterval(wordInterval);
-
-            setAnswers((prev) => [...prev, line]);
-            setCurrentLine("");
-
-            lineIndex++;
-            setTimeout(typeLine, 400);
-          }
-        }, 100);
-      };
-
-      typeLine();
-    }, 3000);
+      }, 25);
+    }, 700);
   };
 
+  // 🔽 Auto scroll like ChatGPT
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop =
+        containerRef.current.scrollHeight;
+    }
+  }, [displayText]);
+
   return (
-    <section
-      id="solution"
-      className="relative py-24 px-6 bg-gradient-to-b from-black via-slate-900 to-black text-white"
-    >
-      <div className="max-w-5xl mx-auto text-center space-y-6">
+    <section className="relative py-24 px-6 bg-gradient-to-b from-black via-slate-900 to-black text-white">
+      <div className="max-w-5xl mx-auto space-y-6">
 
-        {/* TITLE */}
-        <h2 className="text-4xl md:text-5xl font-bold">
-           <span className="text-yellow-400">JURIX</span>
-        </h2>
+        {/* HEADER */}
+        <div className="text-center">
+          <h2 className="text-4xl md:text-5xl font-bold">
+            <span className="text-yellow-400">JURIX</span>
+          </h2>
+          <p className="text-yellow-400 text-lg mt-2">
+            All Legal Queries. One Stop Solution.
+          </p>
+        </div>
 
-        <p className="text-yellow-400 text-lg">
-          All Legal Queries. One Stop Solution.
-        </p>
-
-        <Card className="mt-10 bg-white/5 border border-yellow-500/20 backdrop-blur-xl shadow-xl">
+        <Card className="bg-white/5 border border-yellow-500/20 backdrop-blur-xl shadow-xl">
           <CardContent className="p-6 space-y-6">
 
             {/* QUESTION */}
             {currentQ && (
-              <div className="flex items-center gap-3 bg-white/10 p-3 rounded-lg text-left">
+              <div className="flex items-center gap-3 bg-white/10 p-3 rounded-lg">
                 <Bot className="w-5 h-5 text-yellow-400" />
                 <p className="text-sm text-gray-200">{currentQ}</p>
               </div>
             )}
 
-            {/* ANSWER */}
+            {/* CHAT CONTAINER */}
             {currentQ && (
-              <div className="bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 border border-yellow-500/30 rounded-xl p-5 text-left relative min-h-[160px]">
-
-                {/* ICON */}
-                <div className="absolute top-3 right-3">
-                  <div className="bg-yellow-500 text-black p-2 rounded-full">
-                    <Bot className="w-4 h-4" />
-                  </div>
-                </div>
-
-                {/* 🧠 THINKING */}
+              <div
+                ref={containerRef}
+                className="bg-gradient-to-br from-yellow-500/10 to-yellow-600/5 border border-yellow-500/20 rounded-xl p-6 h-[500px] overflow-y-auto custom-scrollbar"
+              >
+                {/* THINKING */}
                 {thinking && (
                   <p className="text-yellow-400 animate-pulse text-sm">
-                    Analyzing your query...
+                    Thinking...
                   </p>
                 )}
 
-                {/* ANSWERS */}
-                <ol className="list-decimal pl-5 space-y-2 text-sm text-gray-200">
-                  {answers.map((line, index) => (
-                    <li key={index}>{line}</li>
-                  ))}
+                {/* RESPONSE */}
+                {!thinking && (
+                  <div className="space-y-4">
 
-                  {/* CURRENT LINE */}
-                  {loading && currentLine && (
-                    <li>
-                      {currentLine}
-                      <span className="inline-block w-2 h-4 ml-1 bg-yellow-400 animate-pulse" />
-                    </li>
-                  )}
-                </ol>
+                    <h3 className="text-xl font-bold text-yellow-400">
+                      {dummyLegalResponse.title}
+                    </h3>
 
-                {/* 📊 CONFIDENCE */}
-                {confidence && (
-                  <div className="mt-4 text-xs text-green-400 font-medium">
-                    Confidence Score: {confidence}%
+                    <div className="prose prose-invert max-w-none text-sm text-white leading-relaxed">
+                      <ReactMarkdown>
+                        {displayText}
+                      </ReactMarkdown>
+
+                      {/* CURSOR */}
+                      {loading && (
+                        <span className="inline-block w-2 h-4 ml-1 bg-yellow-400 animate-pulse" />
+                      )}
+                    </div>
+
+                    {!loading && (
+                      <div className="text-xs text-green-400 mt-4">
+                        Confidence Score: 95%
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
             )}
 
-            {/* 📚 SOURCES */}
-            {sources.length > 0 && (
-              <div className="bg-white/5 border border-yellow-500/20 rounded-xl p-4 text-left">
+            {/* SOURCES */}
+            {!loading && displayText && (
+              <div className="bg-white/5 border border-yellow-500/20 rounded-xl p-4">
                 <h4 className="text-yellow-400 font-semibold text-sm mb-2">
-                  References & Sources
+                  References
                 </h4>
 
                 <ul className="space-y-1 text-xs text-gray-300">
-                  {sources.map((src, index) => (
-                    <li key={index} className="flex items-start gap-2">
+                  {dummyLegalResponse.sources.map((src, i) => (
+                    <li key={i} className="flex gap-2">
                       <span className="text-yellow-400">•</span>
                       {src}
                     </li>
                   ))}
                 </ul>
-              </div>
-            )}
-
-            {/* ⚠️ DISCLAIMER */}
-            {sources.length > 0 && (
-              <div className="text-xs text-gray-400 text-left border-t border-yellow-500/10 pt-3">
-                ⚠️ This AI-generated response is for informational purposes only
-                and should not be considered as legal advice. Please consult a
-                qualified legal professional for accurate guidance.
               </div>
             )}
 
